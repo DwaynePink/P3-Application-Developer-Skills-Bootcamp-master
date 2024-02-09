@@ -42,9 +42,6 @@ class Matchmaking:
                 elif rnd.result == "player2":
                     rnd.player2.add_points(1)
 
-    def match_following_round(self):
-        # Logic to match players for following rounds
-        pass
 
 matchmaker = Matchmaking()  # Define the matchmaker instance here
 
@@ -67,3 +64,7 @@ for idx, (player1, player2) in enumerate(matchups, 1):
 print("\nInitial points for players:")
 for player, point in points.items():
     print(f"{player.name}: {point}")
+
+    def match_following_round(self):
+        # Logic to match players for following rounds
+        pass
