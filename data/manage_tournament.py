@@ -38,8 +38,15 @@ class ManageTournament:
             return
 
         num_players = 0
-        while num_players % 2 != 0 or num_players <= 0:
-            num_players = int(input("Enter the number of players to select (must be an even number): "))
+        while True:
+            try:
+                num_players = int(input("Enter the number of players to select (must be an even number): "))
+                if num_players % 2 == 0 and num_players > 0:
+                    break  # break out of the loop if input is valid
+                else:
+                    print("Invalid number. Please enter a positive even number.")
+            except ValueError:
+                print("Invalid input. Please enter a valid number.")
         selected_players = self.select_players(num_players)
 
         max_rounds = int(input("Enter the maximum number of rounds: "))
