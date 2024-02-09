@@ -13,7 +13,7 @@ class Player:
         self.name = name
         self.email = email
         self.chess_id = chess_id
-
+        self.points = 0
         # The class uses a private attribute for the birthdate (datetime format)
         self._birthdate = None
         # And a public one with a getter/setter for the birthday (str)
