@@ -2,7 +2,7 @@ import os
 import json
 from models.tournament import Tournament
 from models.player import Player
-
+from thefuzz import process
 
 class ManageTournament:
     def __init__(self):
@@ -193,12 +193,21 @@ class ManageTournament:
         else:
             print(f"No tournament found with the name '{tournament_name}'.")
 
-    def search_players(self, search_term):
-        # Searches and returns players matching the given search term (name or chess ID).
-        return '\n'.join([f"Name: {player.name}, Chess ID: {player.chess_id}"
-                          for player in self.all_players
-                          if search_term.lower() in player.name.lower()
-                          or search_term.lower() in player.chess_id.lower()])
+    def search_players_objects(self, search_term):
+        # Searches and returns player objects matching the given search term (name or chess ID).
+        matched_players = []
+        for player in self.all_players:
+            # Check for exact match in name or chess ID
+            if (search_term.lower() in player.name.lower()) or (search_term.lower() in player.chess_id.lower()):
+                matched_players.append(player)
+            else:
+                # Perform fuzzy matching
+                matches = process.extract(search_term.lower(), player.name.lower(), scorer=process.partial_ratio)
+                for _, score in matches:
+                    if score > 50:  # Adjust the threshold as needed
+                        matched_players.append(player)
+                        break  # Break loop if a match is found
+        return matched_players
 
     def save_tournament_state(self, tournament, round_number):
         # Saves the state of the current round of the tournament to a JSON file.
