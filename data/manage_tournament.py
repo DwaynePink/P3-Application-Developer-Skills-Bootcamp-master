@@ -11,7 +11,7 @@ class ManageTournament:
         self.load_all_clubs()
 
     def load_all_clubs(self):
-        base_path = r"\Users\dwayn\PycharmProjects\Franks\P3-Application-Developer-Skills-Bootcamp-mentor\P3-Application-Developer-Skills-Bootcamp-mentor\data\clubs"
+        base_path = r"\Users\dwayn\PycharmProjects\P3-Application-Developer-Skills-Bootcamp-Dwayne\data\clubs"
         club_files = ["cornville.json", "springfield.json"]
         for club_file in club_files:
             club_name, club_players = self.load_club(os.path.join(base_path, club_file))
