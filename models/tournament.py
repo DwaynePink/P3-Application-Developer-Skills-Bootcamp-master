@@ -4,6 +4,8 @@ from .round import Round
 
 class Tournament:
 
+    players = None
+
     def __init__(self, name, venue, start_date, end_date, players, max_round):
         if not name:
             raise ValueError("Player name is required!")
