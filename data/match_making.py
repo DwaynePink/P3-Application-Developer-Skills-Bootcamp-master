@@ -7,12 +7,6 @@ class Matchmaking:
     def __init__(self):
         self.players = []
 
-    def shuffle_players(self):
-        if len(self.players) % 2 != 0:
-            raise ValueError("Number of players must be even for matchmaking.")
-        random.shuffle(self.players)
-        print("Players shuffled successfully.")
-
     def match_following_round(self):
         # Logic to match players for following rounds
         pass
