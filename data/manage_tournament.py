@@ -103,7 +103,7 @@ class ManageTournament:
         """
         if tournament.current_round >= tournament.max_round:
             print("Maximum number of rounds reached. The tournament has concluded.")
-            self.declare_winner(tournament)
+            self.declare_winner(tournament)  ##### NEED TO FIX THIS #####
             return
 
         if not tournament.play_round():

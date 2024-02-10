@@ -38,6 +38,9 @@ class Player:
             other.birthdate,
         )
 
+    def add_points(self, points):
+        self.points += points
+
     @property
     def birthday(self):
         """Property to get the birthday (string) from the birthdate (datetime)"""
