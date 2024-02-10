@@ -13,26 +13,6 @@ class Matchmaking:
         random.shuffle(self.players)
         print("Players shuffled successfully.")
 
-    """
-    def match_first_round(self):
-        if len(self.players) < 2:
-            raise ValueError("At least two players are required for matchmaking.")
-
-        self.shuffle_players()
-        matchups = []
-        points = defaultdict(float)
-
-        for i in range(0, len(self.players), 2):
-            player1 = self.players[i]
-            player2 = self.players[i + 1]
-            matchups.append((player1, player2))
-            points[player1] = 0
-            points[player2] = 0
-
-        print("First round matchups created successfully.")
-        return matchups, points
-    """
-
     def match_following_round(self):
         # Logic to match players for following rounds
         pass
