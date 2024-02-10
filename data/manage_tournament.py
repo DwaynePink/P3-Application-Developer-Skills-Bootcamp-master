@@ -69,6 +69,7 @@ class ManageTournament:
         for idx, (player1, player2) in enumerate(matchups, 1):
             print(f"Match {idx}: {player1.name} vs {player2.name}")
 
+    """
     def calculate_first_round_matchups(self, tournament):
         random.shuffle(tournament.players)
         num_players = len(tournament.players)
@@ -80,6 +81,7 @@ class ManageTournament:
         print("Match-ups for the first round:")
         for i, match in enumerate(tournament.rounds[0], start=1):
             print(f"Match {i}: {match.player1.name} vs {match.player2.name}")
+    """
 
     def play_next_round(self, tournament):
         # Handles the gameplay for the next round in the given tournament.
@@ -93,12 +95,12 @@ class ManageTournament:
               f"Current round: {tournament.current_round}\n"
               f"Max rounds: {tournament.max_round}")
         # If it's the first round, calculate match-ups
-
+        """
         if tournament.current_round == 0:
             # print added for debugging will be removed after
             print("Calculating match-ups for the first round.")
             self.calculate_first_round_matchups(tournament)
-
+        """
         if tournament.current_round >= tournament.max_round:
             print("Maximum number of rounds reached. The tournament has concluded.")
             self.declare_winner(tournament)
@@ -109,7 +111,7 @@ class ManageTournament:
 
         current_round = tournament.rounds[tournament.current_round - 1]
         for i, match in enumerate(current_round, start=1):
-            if not match.is_played():
+            if not match.was_played():
                 print(f"Match {i}: {match.player1.name} vs {match.player2.name}")
                 while True:
                     result = input("Enter winner (1 for player1, 2 for player2, 0 for draw): ").strip()
