@@ -31,6 +31,10 @@ class Matchmaking:
         print("First round matchups created successfully.")
         return matchups, points
 
+    def match_following_round(self):
+        # Logic to match players for following rounds
+        pass
+
     def update_player_points(self, rounds):
         for rnd in rounds:
             if rnd.was_played():
@@ -64,7 +68,3 @@ for idx, (player1, player2) in enumerate(matchups, 1):
 print("\nInitial points for players:")
 for player, point in points.items():
     print(f"{player.name}: {point}")
-
-    def match_following_round(self):
-        # Logic to match players for following rounds
-        pass
