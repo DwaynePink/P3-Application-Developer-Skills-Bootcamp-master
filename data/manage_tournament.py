@@ -1,10 +1,9 @@
 import os
 import json
-import random
 from models.tournament import Tournament
 from models.player import Player
 from thefuzz import process
-from data.MatchMaking.Matchmaking_firstround import MatchmakingFirstRound
+from data.Matchmaking_firstround import MatchmakingFirstRound
 
 class ManageTournament:
     def __init__(self):
@@ -134,6 +133,38 @@ class ManageTournament:
             print("Maximum number of rounds reached. The tournament has concluded.")
             self.declare_winner(tournament)
 
+    def save_tournament_state(self, tournament, round_number):
+        # Saves the state of the current round of the tournament to a JSON file.
+        round_data = []
+        for match in tournament.rounds[round_number - 1]:
+            player1_info = f"{match.player1.name} (ID: {match.player1.chess_id})"
+            player2_info = f"{match.player2.name} (ID: {match.player2.chess_id})"
+
+            if match.result == "player1":
+                winner_info = player1_info
+            elif match.result == "player2":
+                winner_info = player2_info
+            else:
+                winner_info = 'draw'
+
+            match_info = {
+                'player1': player1_info,
+                'player2': player2_info,
+                'winner': winner_info
+            }
+            round_data.append(match_info)
+
+        file_name = f"{tournament.name}_round_{round_number}.json"
+        try:
+            file_path = file_name
+
+            with open(file_path, 'w') as file:
+                json.dump(round_data, file, indent=4)
+
+            print(f"Round {round_number} data saved in {os.path.abspath(file_path)}")
+        except Exception as e:
+            print(f"Failed to save tournament state: {e}")
+
     def view_player_details(self, tournament_name):
         # Displays details of all players participating in a specific tournament.
         tournament = self.tournaments.get(tournament_name)
@@ -248,34 +279,4 @@ class ManageTournament:
                         break  # Break loop if a match is found
         return matched_players
 
-    def save_tournament_state(self, tournament, round_number):
-        # Saves the state of the current round of the tournament to a JSON file.
-        round_data = []
-        for match in tournament.rounds[round_number - 1]:
-            player1_info = f"{match.player1.name} (ID: {match.player1.chess_id})"
-            player2_info = f"{match.player2.name} (ID: {match.player2.chess_id})"
 
-            if match.result == "player1":
-                winner_info = player1_info
-            elif match.result == "player2":
-                winner_info = player2_info
-            else:
-                winner_info = 'draw'
-
-            match_info = {
-                'player1': player1_info,
-                'player2': player2_info,
-                'winner': winner_info
-            }
-            round_data.append(match_info)
-
-        file_name = f"{tournament.name}_round_{round_number}.json"
-        try:
-            file_path = file_name
-
-            with open(file_path, 'w') as file:
-                json.dump(round_data, file, indent=4)
-
-            print(f"Round {round_number} data saved in {os.path.abspath(file_path)}")
-        except Exception as e:
-            print(f"Failed to save tournament state: {e}")
