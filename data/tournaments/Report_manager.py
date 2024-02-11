@@ -20,7 +20,13 @@ class TournamentReporter:
             for match in round_matches:
                 match_info = f"{match.player1.name} vs {match.player2.name}"
                 if match.played:
-                    result = f"Result: {match.result}"
+                    if match.result == "player1":
+                        winner_name = match.player1.name
+                    elif match.result == "player2":
+                        winner_name = match.player2.name
+                    else:
+                        winner_name = "Draw"
+                    result = f"Result: {winner_name}"
                 else:
                     result = "Not played yet"
                 print(f" - Match: {match_info}, {result}")
