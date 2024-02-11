@@ -1,8 +1,13 @@
+from data.tournaments.Report_manager import TournamentReporter
+from models import tournament
+
+
 class TournamentView:
     def __init__(self, tournament_manager):
         # Initialize the TournamentView with a reference to a tournament_manager
         # which will handle the backend logic for managing tournaments
         self.tournament_manager = tournament_manager
+        self.tournament_reports = TournamentReporter(tournament)
 
     def manage_tournament(self):
         # Method to manage a tournament. It includes listing available tournaments,
@@ -66,7 +71,8 @@ class TournamentView:
             elif choice == '4':
                 self.tournament_manager.view_player_details(tournament.name)
             elif choice == '5':
-                self.tournament_manager.print_tournament_report(tournament)
+                reporter = TournamentReporter(tournament)
+                reporter.print_tournament_report()
             elif choice == '6':
                 break  # Exit the tournament management loop
             else:
