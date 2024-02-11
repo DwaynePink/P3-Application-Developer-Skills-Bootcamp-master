@@ -51,7 +51,17 @@ class ManageTournament:
                 print("Invalid input. Please enter a valid number.")
         selected_players = self.select_players(num_players)
 
-        max_rounds = int(input("Enter the maximum number of rounds: "))
+        max_rounds = 0
+        while True:
+            try:
+                max_rounds = int(input("Enter the maximum number of rounds: "))
+                if max_rounds > 0:
+                    break  # Break out of the loop if input is valid
+                else:
+                    print("Invalid number. Please enter a positive number.")
+            except ValueError:
+                print("Invalid input. Please enter a valid number.")
+
 
         # Create and add tournament to the list of tournaments
         new_tournament = Tournament(tournament_name, venue, start_date, end_date, selected_players, max_rounds)
@@ -132,12 +142,7 @@ class ManageTournament:
               f"Current round: {tournament.current_round}\n"
               f"Max rounds: {tournament.max_round}")
         # If it's the first round, calculate match-ups
-        """
-        if tournament.current_round == 0:
-            # print added for debugging will be removed after
-            print("Calculating match-ups for the first round.")
-            self.calculate_first_round_matchups(tournament)
-        """
+
         if tournament.current_round >= tournament.max_round:
             print("Maximum number of rounds reached. The tournament has concluded.")
             self.declare_winner(tournament)  ##### NEED TO FIX THIS #####
@@ -167,9 +172,6 @@ class ManageTournament:
         self.save_tournament_state(tournament, tournament.current_round)
         tournament.display_rankings()
 
-        if tournament.current_round == tournament.max_round:
-            print("Maximum number of rounds reached. The tournament has concluded.")
-            self.declare_winner(tournament)
 
     def save_tournament_state(self, tournament, round_number):
         # Saves the state of the current round of the tournament to a JSON file.
