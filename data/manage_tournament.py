@@ -68,19 +68,57 @@ class ManageTournament:
         for idx, (player1, player2) in enumerate(matchups, 1):
             print(f"Match {idx}: {player1.name} vs {player2.name}")
 
-    """
-    def calculate_first_round_matchups(self, tournament):
-        random.shuffle(tournament.players)
-        num_players = len(tournament.players)
-        for i in range(0, num_players, 2):
-            player1 = tournament.players[i]
-            player2 = tournament.players[i + 1]
-            tournament.rounds[0].append(Match(player1, player2))
+    def search_players(self, search_term):
+        # Searches and returns players matching the given search term (name or chess ID).
+        return [player for player in self.all_players
+                if search_term.lower() in player.name.lower()
+                or search_term.lower() in player.chess_id.lower()
+                or search_term.lower() in player.name.lower().split()]
 
-        print("Match-ups for the first round:")
-        for i, match in enumerate(tournament.rounds[0], start=1):
-            print(f"Match {i}: {match.player1.name} vs {match.player2.name}")
-    """
+    def search_players_objects(self, search_term):
+        # Searches and returns player objects matching the given search term (name or chess ID).
+        matched_players = []
+        for player in self.all_players:
+            # Check for exact match in name or chess ID
+            if (search_term.lower() in player.name.lower()) or (search_term.lower() in player.chess_id.lower()):
+                matched_players.append(player)
+            else:
+                # Perform fuzzy matching
+                matches = process.extract(search_term.lower(), player.name.lower(), scorer=process.partial_ratio)
+                for _, score in matches:
+                    if score > 50:  # Adjust the threshold as needed
+                        matched_players.append(player)
+                        break  # Break loop if a match is found
+        return matched_players
+    def select_players(self, num_players):
+        # Selects players for a tournament based on user input.
+        selected_players = []
+
+        while len(selected_players) < num_players:
+            while True:
+                try:
+                    search_term = input("Enter a name or chess ID to search, or just press enter to list all players: ")
+                    display_list = self.search_players(search_term) if search_term else self.all_players
+
+                    for i, player in enumerate(display_list, 1):
+                        print(f"{i}: {player.name} ({player.chess_id})")
+
+                    player_index = int(input(f"Select player {len(selected_players) + 1} (enter number): ")) - 1
+                    if 0 <= player_index < len(display_list):
+                        selected_player = display_list[player_index]
+                        if selected_player not in selected_players:
+                            selected_players.append(selected_player)
+                            self.display_selected_players(selected_players)
+                            break  # break out of the inner loop if input is valid
+                        else:
+                            print("Player already selected. Please choose a different player.")
+                    else:
+                        print("Invalid player number. Please try again.")
+                except ValueError:
+                    print("Invalid input. Please enter a valid number.")
+
+        return selected_players
+
 
     def play_next_round(self, tournament):
         # Handles the gameplay for the next round in the given tournament.
@@ -175,40 +213,6 @@ class ManageTournament:
         print(f"Player details for {tournament.name}:")
         for player in tournament.players:
             print(f" - {player.name}, Chess ID: {player.chess_id})")
-    def search_players(self, search_term):
-        # Searches and returns players matching the given search term (name or chess ID).
-        return [player for player in self.all_players
-                if search_term.lower() in player.name.lower()
-                or search_term.lower() in player.chess_id.lower()
-                or search_term.lower() in player.name.lower().split()]
-    def select_players(self, num_players):
-        # Selects players for a tournament based on user input.
-        selected_players = []
-
-        while len(selected_players) < num_players:
-            while True:
-                try:
-                    search_term = input("Enter a name or chess ID to search, or just press enter to list all players: ")
-                    display_list = self.search_players(search_term) if search_term else self.all_players
-
-                    for i, player in enumerate(display_list, 1):
-                        print(f"{i}: {player.name} ({player.chess_id})")
-
-                    player_index = int(input(f"Select player {len(selected_players) + 1} (enter number): ")) - 1
-                    if 0 <= player_index < len(display_list):
-                        selected_player = display_list[player_index]
-                        if selected_player not in selected_players:
-                            selected_players.append(selected_player)
-                            self.display_selected_players(selected_players)
-                            break  # break out of the inner loop if input is valid
-                        else:
-                            print("Player already selected. Please choose a different player.")
-                    else:
-                        print("Invalid player number. Please try again.")
-                except ValueError:
-                    print("Invalid input. Please enter a valid number.")
-
-        return selected_players
 
     def display_selected_players(self, selected_players):
         # Displays a list of currently selected players for the tournament.
@@ -262,21 +266,5 @@ class ManageTournament:
             print(f"Tournament '{tournament_name}' has been removed.")
         else:
             print(f"No tournament found with the name '{tournament_name}'.")
-
-    def search_players_objects(self, search_term):
-        # Searches and returns player objects matching the given search term (name or chess ID).
-        matched_players = []
-        for player in self.all_players:
-            # Check for exact match in name or chess ID
-            if (search_term.lower() in player.name.lower()) or (search_term.lower() in player.chess_id.lower()):
-                matched_players.append(player)
-            else:
-                # Perform fuzzy matching
-                matches = process.extract(search_term.lower(), player.name.lower(), scorer=process.partial_ratio)
-                for _, score in matches:
-                    if score > 50:  # Adjust the threshold as needed
-                        matched_players.append(player)
-                        break  # Break loop if a match is found
-        return matched_players
 
 
