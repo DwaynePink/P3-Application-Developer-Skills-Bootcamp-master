@@ -134,21 +134,18 @@ class ManageTournament:
         # Handles the gameplay for the next round in the given tournament.
         # Processes match results based on user input.
         # first checks if max rounds have been reached
-        if tournament.current_round >= tournament.max_round:
-            print("Maximum number of rounds reached. No new rounds will occur")
-            return False
-
         print(f"Attempting to play round {tournament.current_round + 1}.\n"
               f"Current round: {tournament.current_round}\n"
               f"Max rounds: {tournament.max_round}")
-        # If it's the first round, calculate match-ups
 
         if tournament.current_round >= tournament.max_round:
             print("Maximum number of rounds reached. The tournament has concluded.")
-            self.declare_winner(tournament)  ##### NEED TO FIX THIS #####
+            self.calculate_winner(tournament)
+            self.declare_winners() ##### NEED TO FIX THIS #####
             return
 
         if not tournament.play_round():
+            print("unable to play round. endng tournament")
             return
 
         current_round = tournament.rounds[tournament.current_round - 1]
@@ -172,6 +169,22 @@ class ManageTournament:
         self.save_tournament_state(tournament, tournament.current_round)
         tournament.display_rankings()
 
+    def calculate_winner(self, tournament):
+        # sort the players by their points and return the player with the highest points
+        sorted_players = sorted(tournament.players, key=lambda player: player.points, reverse=True)
+        print(f"Sorted players for tournament '{tournament.name}':")
+        for player in sorted_players:
+            print(f"Player: {player.name}, Points: {player.points}")
+        winner = sorted_players[0]
+        print(f"Calculated winner for tournament '{tournament.name}': {winner.name}")
+        return winner
+
+    def declare_winners(self):
+        for tournament_name, tournament in self.tournaments.items():
+            if tournament.current_round > tournament.max_round:
+                print(f"Tournament '{tournament_name}' has completed all rounds.")
+                winner = self.calculate_winner(tournament)
+                print(f"The winner of tournament '{tournament_name}' is: {winner.name}")
 
     def save_tournament_state(self, tournament, round_number):
         # Saves the state of the current round of the tournament to a JSON file.
