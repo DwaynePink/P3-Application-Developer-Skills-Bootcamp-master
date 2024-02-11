@@ -148,6 +148,12 @@ class ManageTournament:
             print("unable to play round. endng tournament")
             return
 
+        # Ask for confirmation before advancing to the next round
+        confirmation = input("Are you sure you want to advance to the next round? (yes/no): ").strip().lower()
+        if confirmation != "yes":
+            print("Next round aborted.")
+            return
+
         current_round = tournament.rounds[tournament.current_round - 1]
         for i, match in enumerate(current_round, start=1):
             if not match.was_played():
@@ -243,8 +249,9 @@ class ManageTournament:
             return
 
         print("Ongoing Tournaments:")
-        for tournament_name in self.tournaments.keys():
-            print(tournament_name)
+        sorted_tournaments = sorted(self.tournaments.values(), key=lambda t: t.start_date, reverse=False)
+        for tournament in sorted_tournaments:
+            print(tournament.name)
 
     def remove_tournament(self):
         # Removes a tournament from the tournaments list based on user input.
