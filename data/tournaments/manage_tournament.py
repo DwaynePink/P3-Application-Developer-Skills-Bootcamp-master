@@ -236,29 +236,6 @@ class ManageTournament:
             print(f"{i}: {player.name} ({player.chess_id})")
         print()
 
-    def print_tournament_report(self, tournament):
-        # Prints a detailed report of the tournament including players, rounds, and matches.
-        print(f"\nTournament Report for: {tournament.name}")
-        print(f"Dates: {tournament.start_date} to {tournament.end_date}")
-        print(f"Venue: {tournament.venue}")
-        print(f"Current Round: {tournament.current_round}/{tournament.max_round}")
-
-        print("\nPlayers (sorted by points):")
-        sorted_players = sorted(tournament.players, key=lambda x: x.points, reverse=True)
-        for player in sorted_players:
-            print(f" - {player.name} (Points: {player.points})")
-
-        print("\nRounds and Matches:")
-        for round_num, round_matches in enumerate(tournament.rounds, start=1):
-            print(f"Round {round_num}:")
-            for match in round_matches:
-                match_info = f"{match.player1.name} vs {match.player2.name}"
-                if match.played:
-                    result = f"Result: {match.result}"
-                else:
-                    result = "Not played yet"
-                print(f" - Match: {match_info}, {result}")
-
     def list_tournaments(self):
         # Lists all ongoing tournaments.
         if not self.tournaments:
