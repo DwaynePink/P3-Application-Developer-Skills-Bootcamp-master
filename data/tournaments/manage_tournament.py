@@ -3,7 +3,7 @@ import json
 from models.tournament import Tournament
 from models.player import Player
 from thefuzz import process
-from data.Matchmaking_firstround import MatchmakingFirstRound
+from data.tournaments.Matchmaking_firstround import MatchmakingFirstRound
 
 class ManageTournament:
     def __init__(self):

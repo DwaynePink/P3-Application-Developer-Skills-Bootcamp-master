@@ -1,4 +1,4 @@
-from data.manage_tournament import ManageTournament
+from data.tournaments.manage_tournament import ManageTournament
 from screens.tournaments.view import TournamentView
 
 
