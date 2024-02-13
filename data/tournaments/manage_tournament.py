@@ -4,6 +4,7 @@ from models.tournament import Tournament
 from models.player import Player
 from thefuzz import process
 from data.tournaments.Matchmaking_firstround import MatchmakingFirstRound
+from datetime import datetime
 
 class ManageTournament:
     def __init__(self):
@@ -32,8 +33,20 @@ class ManageTournament:
         # Handles tournament creation including venue, dates, player selection, and max rounds.
         tournament_name = input("Enter the name of the new tournament: ").strip()
         venue = input("Enter the venue for the tournament: ").strip()
-        start_date = input("Enter the start date (YYYY-MM-DD): ").strip()
-        end_date = input("Enter the end date (YYYY-MM-DD): ").strip()
+
+        while True:
+            try:
+                start_date = datetime.strptime(input("Enter the start date (YYYY-MM-DD): ").strip(), "%Y-%m-%d")
+                break
+            except ValueError:
+                print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
+
+        while True:
+            try:
+                end_date = datetime.strptime(input("Enter the end date (YYYY-MM-DD): ").strip(), "%Y-%m-%d")
+                break
+            except ValueError:
+                print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
 
         if tournament_name in self.tournaments:
             print(f"Tournament '{tournament_name}' already exists.")
