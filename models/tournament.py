@@ -1,6 +1,6 @@
 import random
 from .round import Round
-
+from data.tournaments.match_making import Matchmaking
 
 class Tournament:
 
@@ -19,10 +19,12 @@ class Tournament:
         self.rounds = []
         self.current_round = 0
         self.is_round_setup_done = False
-
+        self.matchmaking = Matchmaking()
+    """
     def shuffle_players(self):
         # Randomly shuffle the players list
         random.shuffle(self.players)
+    """
 
     def sort_players(self):
         # Sort players based on their points in descending order
@@ -38,7 +40,7 @@ class Tournament:
             self.is_round_setup_done = True
 
             if not self.rounds:
-                self.shuffle_players()
+                self.matchmaking.shuffle_players()
             else:
                 self.sort_players()
 
