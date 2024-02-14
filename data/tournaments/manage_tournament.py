@@ -12,7 +12,7 @@ class ManageTournament:
         self.tournaments = {}
         self.all_players = []
         self.load_all_clubs()
-        self.matchmaker = MatchmakingFirstRound()
+        self.matchmaker = Matchmaking()
 
     def load_all_clubs(self):
         base_path = r"\Users\dwayn\PycharmProjects\P3-Application-Developer-Skills-Bootcamp-Dwayne\data\clubs"
@@ -82,7 +82,6 @@ class ManageTournament:
         self.tournaments[tournament_name] = new_tournament
 
         # Initialize matchmaker and start matchmaking process
-        self.matchmaker = MatchmakingFirstRound()
         self.matchmaker.players.extend(selected_players)  # Add selected players to the matchmaker
         self.matchmaker.shuffle_players()  # Shuffle players
         matchups, _ = self.matchmaker.match_first_round()  # Match the first round
