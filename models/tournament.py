@@ -40,7 +40,8 @@ class Tournament:
             self.is_round_setup_done = True
 
             if not self.rounds:
-                self.matchmaking.shuffle_players()
+                pass
+
             else:
                 self.sort_players()
 
