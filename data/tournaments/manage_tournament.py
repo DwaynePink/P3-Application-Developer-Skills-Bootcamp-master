@@ -189,6 +189,18 @@ class ManageTournament:
         print(f"After Round {tournament.current_round}:")
         self.save_tournament_state(tournament, tournament.current_round)
         tournament.display_rankings()
+        print(tournament)
+        self.matchmaker = Matchmaking()
+        # Get matchups for the next round
+        next_round_matchups = self.matchmaker.match_following_round(tournament)
+
+        print("Matchups for the next round:")
+        for idx, (player1, player2) in enumerate(next_round_matchups, 1):
+            print(f"Match {idx}: {player1.name} vs {player2.name}")
+
+        """ DONT KNOW WHAT THIS CODE IS EVEN FOR
+        # Update the tournament with the new matchups
+        tournament.add_round_matchups(next_round_matchups)"""
 
     def calculate_winner(self, tournament):
         # sort the players by their points and return the player with the highest points
