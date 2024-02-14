@@ -53,6 +53,7 @@ class Matchmaking:
         print(len(self.players))
         # Pair players for the next round
 
+        self.shuffle_players()
         matchups = []
         used_pairs = set()
         for i in range(0, len(sorted_players), 2):
