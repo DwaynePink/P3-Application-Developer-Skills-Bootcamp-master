@@ -5,8 +5,9 @@ from screens import players
 
 
 class Matchmaking:
-    def __init__(self):
-        self.players = []
+    def __init__(self, players=None):
+        self.players = players if players is not None else []
+
 
     def shuffle_players(self):
         if len(self.players) % 2 != 0:
