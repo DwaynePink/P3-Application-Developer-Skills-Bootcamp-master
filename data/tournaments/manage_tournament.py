@@ -1,9 +1,10 @@
 import os
 import json
+
+from data.tournaments.match_making import Matchmaking
 from models.tournament import Tournament
 from models.player import Player
 from thefuzz import process
-from data.tournaments.Matchmaking_firstround import MatchmakingFirstRound
 from datetime import datetime
 
 class ManageTournament:
@@ -88,6 +89,8 @@ class ManageTournament:
 
         print("Tournament created successfully.")
         print("Matchups for the first round:")
+
+        # Print the matchups
         for idx, (player1, player2) in enumerate(matchups, 1):
             print(f"Match {idx}: {player1.name} vs {player2.name}")
 
