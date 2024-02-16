@@ -108,7 +108,6 @@ class ManageTournament:
         for idx, (player1, player2) in enumerate(matchups, 1):
             print(f"Match {idx}: {player1.name} vs {player2.name}")
 
-
     def search_players(self, search_term):
         """
         Searches and returns players based on a given search terms
@@ -143,7 +142,6 @@ class ManageTournament:
         Selects player and provide list of players for search if details unknown.
         for a tournament based on user input. provides validation and error handling.
         """
-                # Selects players for a tournament based on user input.
         selected_players = []
 
         while len(selected_players) < num_players:
@@ -171,7 +169,6 @@ class ManageTournament:
 
         return selected_players
 
-
     def play_next_round(self, tournament):
         """
         Prints updated  and max rounds to be played. Checks if max rounds have been reached.
@@ -185,7 +182,7 @@ class ManageTournament:
         if tournament.current_round >= tournament.max_round:
             print("Maximum number of rounds reached. The tournament has concluded.")
             self.calculate_winner(tournament)
-            self.declare_winners() ##### NEED TO FIX THIS #####
+            """self.declare_winners() ##### NEED TO FIX THIS #####"""
             return
 
         if not tournament.play_round():
@@ -217,21 +214,23 @@ class ManageTournament:
                     else:
                         print("Invalid input. Please enter 1, 2, or 0.")
 
-        """"
+        next_round_matchups = self.matchmaker.match_following_round(tournament)
+        print("Next round matchups before storing:", next_round_matchups)
+        """
         Calls the match_following_round method and generates the next matchups
         Prints matchups for coordinator to communicate to the players. 
         """
-        next_round_matchups = self.matchmaker.match_following_round(tournament)
-        print("Next round matchups before storing:", next_round_matchups)
+        self.save_tournament_state(tournament, tournament.current_round)
+        tournament.display_rankings()
         """
         Saves tournament data to the JSON files for record keeping. 
         Displays tournament rankings
         """
-        self.save_tournament_state(tournament, tournament.current_round)
-        tournament.display_rankings()
-
     def calculate_winner(self, tournament):
-        # sort the players by their points and return the player with the highest points
+        """
+        Calculates the winner of a specific tournament. sort the players by their points and returns
+        the player with the highest points. prints sorted list of players and returns winner player object
+        """
         sorted_players = sorted(tournament.players, key=lambda player: player.points, reverse=True)
         print(f"Sorted players for tournament '{tournament.name}':")
         for player in sorted_players:
@@ -240,15 +239,22 @@ class ManageTournament:
         print(f"Calculated winner for tournament '{tournament.name}': {winner.name}")
         return winner
 
+    """
     def declare_winners(self):
+        
+        Iterates over all tournaments stored in the tournaments dict. Check if max rounds reached. 
+        if max reached it calls the Calculate winner. prints name of tournament and winners
+        
         for tournament_name, tournament in self.tournaments.items():
             if tournament.current_round > tournament.max_round:
                 print(f"Tournament '{tournament_name}' has completed all rounds.")
                 winner = self.calculate_winner(tournament)
                 print(f"The winner of tournament '{tournament_name}' is: {winner.name}")
-
+    """
     def save_tournament_state(self, tournament, round_number):
-        # Saves the state of the current round of the tournament to a JSON file.
+        """
+        Saves all rounds to JSON files, so all tournament changes have a record.
+        """
         round_data = []
         for match in tournament.rounds[round_number - 1]:
             player1_info = f"{match.player1.name} (ID: {match.player1.chess_id})"
@@ -280,7 +286,9 @@ class ManageTournament:
             print(f"Failed to save tournament state: {e}")
 
     def view_player_details(self, tournament_name):
-        # Displays details of all players participating in a specific tournament.
+        """
+        Display Player details including full name and chess ID for each tournament created.
+        """
         tournament = self.tournaments.get(tournament_name)
         if not tournament:
             print(f"No tournament found with the name '{tournament_name}'.")
@@ -291,6 +299,9 @@ class ManageTournament:
             print(f" - {player.name}, Chess ID: {player.chess_id})")
 
     def display_selected_players(self, selected_players):
+        """
+        Displays a list of currently selected players for tournament
+        """
         # Displays a list of currently selected players for the tournament.
         print("\nCurrently selected players:")
         for i, player in enumerate(selected_players, 1):
@@ -298,7 +309,9 @@ class ManageTournament:
         print()
 
     def list_tournaments(self):
-        # Lists all ongoing tournaments.
+        """
+        List all Ongoing Tournaments based on user request
+        """
         if not self.tournaments:
             print("There are no ongoing tournaments.")
             return
@@ -309,7 +322,9 @@ class ManageTournament:
             print(tournament.name)
 
     def remove_tournament(self):
-        # Removes a tournament from the tournaments list based on user input.
+        """
+        Removes a tournament from the tournament list based on user input
+        """
         if not self.tournaments:
             print("There are no ongoing tournaments to remove.")
             return
@@ -320,5 +335,3 @@ class ManageTournament:
             print(f"Tournament '{tournament_name}' has been removed.")
         else:
             print(f"No tournament found with the name '{tournament_name}'.")
-
-
