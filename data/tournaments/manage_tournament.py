@@ -7,6 +7,7 @@ from models.player import Player
 from thefuzz import process
 from datetime import datetime
 
+
 class ManageTournament:
     def __init__(self):
         self.tournaments = {}
@@ -15,6 +16,9 @@ class ManageTournament:
         self.matchmaker = Matchmaking()
 
     def load_all_clubs(self):
+        """
+        Load player data from JSON files stored in the directory
+        """
         base_path = r"\Users\dwayn\PycharmProjects\P3-Application-Developer-Skills-Bootcamp-Dwayne\data\clubs"
         club_files = ["cornville.json", "springfield.json"]
         for club_file in club_files:
@@ -22,7 +26,9 @@ class ManageTournament:
             self.all_players.extend(club_players)
 
     def load_club(self, file_path):
-        # Reads player data from a club file and returns the club's name and its players.
+        """
+        Extracts player info from JSON files
+        """
         with open(file_path, 'r') as file:
             data = json.load(file)
             players = [Player(player['name'], player['email'], player['chess_id'], player['birthday'])
@@ -102,6 +108,7 @@ class ManageTournament:
         for idx, (player1, player2) in enumerate(matchups, 1):
             print(f"Match {idx}: {player1.name} vs {player2.name}")
 
+
     def search_players(self, search_term):
         """
         Searches and returns players based on a given search terms
@@ -114,7 +121,7 @@ class ManageTournament:
     def search_players_objects(self, search_term):
         """
         calculates a similarity score between the search term and each player's name,
-        considering partial matches allows the user ease of use
+        considers partial matches allows the user ease of use
         """
         # Searches and returns player objects matching the given search term (name or chess ID).
         matched_players = []
@@ -130,9 +137,11 @@ class ManageTournament:
                         matched_players.append(player)
                         break  # Break loop if a match is found
         return matched_players
+
     def select_players(self, num_players):
         """
-        Selects players for a tournament based on user input. provides validation and error handling.
+        Selects player and provide list of players for search if details unknown.
+        for a tournament based on user input. provides validation and error handling.
         """
                 # Selects players for a tournament based on user input.
         selected_players = []
@@ -188,7 +197,9 @@ class ManageTournament:
         if confirmation != "yes":
             print("Next round aborted.")
             return
-
+        """
+        Defines point system for matches played
+        """
         current_round = tournament.rounds[tournament.current_round - 1]
         for i, match in enumerate(current_round, start=1):
             if not match.was_played():
@@ -212,44 +223,12 @@ class ManageTournament:
         """
         next_round_matchups = self.matchmaker.match_following_round(tournament)
         print("Next round matchups before storing:", next_round_matchups)
-
         """
-        Calls method to store round matchups.
-        
-        tournament.store_round_matchups(tournament.current_round, next_round_matchups)
-        print("Round matchups after storing:", tournament.round_matchups)
-        """
-        """
-        
+        Saves tournament data to the JSON files for record keeping. 
+        Displays tournament rankings
         """
         self.save_tournament_state(tournament, tournament.current_round)
         tournament.display_rankings()
-        """
-        print(f"After Round {tournament.current_round}:")
-
-        for matchup in next_round_matchups:
-            print(f"Round {matchup['round_number']} Match: {matchup['player1'].name} vs {matchup['player2'].name}")
-
-        print("Matchups for the next round:")
-        for idx, (player1, player2) in enumerate(next_round_matchups, 1):
-            print(f"Match {idx}: {player1.name} vs {player2.name}")
-
-     
-        print current round number completed. Saves tournament state and displays rankings
-        
-        print(f"Round {tournament.current_round}: Completed")
-
-        self.matchmaker.update_tournament_results(tournament)
-        self.matchmaker = Matchmaking()
-        # Get matchups for the next round
-
-        
-
-        print("Matchups for the next round:")
-        for idx, (player1, player2) in enumerate(next_round_matchups, 1):
-            print(f"Match {idx}: {player1.name} vs {player2.name}")
-        """
-
 
     def calculate_winner(self, tournament):
         # sort the players by their points and return the player with the highest points
