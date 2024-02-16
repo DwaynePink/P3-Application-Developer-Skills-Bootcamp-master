@@ -19,6 +19,9 @@ class Player:
         # And a public one with a getter/setter for the birthday (str)
         self.birthday = birthday
 
+    def __lt__(self, other):
+        return self.name < other.name
+
     def __str__(self):
         return f"<{self.name}>"
 
