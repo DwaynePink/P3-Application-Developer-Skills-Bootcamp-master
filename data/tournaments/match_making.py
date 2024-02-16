@@ -1,7 +1,5 @@
 import random
 from collections import defaultdict
-from models.player import Player
-from screens import players
 
 
 class Matchmaking:
@@ -24,7 +22,8 @@ class Matchmaking:
 
     def match_first_round(self):
         """
-        Function designed specifically for the first round which is a random shuffle
+        Function designed specifically for the first round which is a random shuffle, iterates
+        over the shuffled list and match pairs. initializes points for each player.
         """
         if len(self.players) < 2:
             raise ValueError("At least two players are required for matchmaking.")
@@ -43,35 +42,11 @@ class Matchmaking:
         print("First round matchups created successfully.")
         return matchups, points
 
-    def update_player_points(self, rounds):
-        for rnd in rounds:
-            if rnd.was_played():
-                if rnd.result == "Draw":
-                    rnd.player1.add_points(0.5)
-                    rnd.player2.add_points(0.5)
-                elif rnd.result == "player1":
-                    rnd.player1.add_points(1)
-                elif rnd.result == "player2":
-                    rnd.player2.add_points(1)
-
-    def update_tournament_results(self, tournament):
-        # Retrieve match results from the completed round
-        round_results = tournament.get_round_results()
-
-        # Update player data based on match results
-        for match_result in round_results:
-            winner = match_result['winner']
-            loser = match_result['loser']
-
-            # Update player statistics
-            winner.increment_wins()
-            loser.increment_losses()
-
     def match_following_round(self, tournament):
         """
-        Function designed to match all following rounds. Players are sorted
-        by rank, so highest points players are matched but also take into account
-        if players have played one another.
+        Function designed to match all following rounds. Players are sorted by rank, so
+        that players wth the highest points are matched first, then shuffles the list and
+        iterates over shuffled list to avoid pairing players whom have been paired before.
         """
         sorted_players = sorted(self.players, key=lambda x: x.points, reverse=True)
 
