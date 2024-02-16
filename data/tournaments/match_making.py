@@ -5,17 +5,27 @@ from screens import players
 
 
 class Matchmaking:
+    """
+    Class is responsible for all matchmaking as well as updating player points and
+    tournament results, which are both needed for the matchmaking process
+    """
     def __init__(self, players=None):
         self.players = players if players is not None else []
 
-
     def shuffle_players(self):
+        """
+        Shuffle players is used for first round match up as well as after logic
+        for match making in the following rounds.
+        """
         if len(self.players) % 2 != 0:
             raise ValueError("Number of players must be even for matchmaking.")
         random.shuffle(self.players)
         print("Players shuffled successfully.")
 
     def match_first_round(self):
+        """
+        Function designed specifically for the first round which is a random shuffle
+        """
         if len(self.players) < 2:
             raise ValueError("At least two players are required for matchmaking.")
 
@@ -58,15 +68,18 @@ class Matchmaking:
             loser.increment_losses()
 
     def match_following_round(self, tournament):
-        # Sort players by their points (descending order)
+        """
+        Function designed to match all following rounds. Players are sorted
+        by rank, so highest points players are matched but also take into account
+        if players have played one another.
+        """
         sorted_players = sorted(self.players, key=lambda x: x.points, reverse=True)
 
-        # Print the number of players available for pairing
         print(f"Number of players available for pairing: {len(sorted_players)}")
         print(len(self.players))
-        # Pair players for the next round
 
         self.shuffle_players()
+        """ Add list to list for matchups """
         matchups = []
         used_pairs = set()
         for i in range(0, len(sorted_players), 2):
@@ -76,7 +89,9 @@ class Matchmaking:
             # Print the players being paired for debugging
             print(f"Pairing: {player1.name} vs {player2.name}")
 
-            # Check if this pair has already played against each other
+            """ 
+            Check if pair has already played against each other
+            """
             pair = tuple(sorted([player1, player2]))
             while pair in used_pairs:
                 # Add debug statements to understand the flow
@@ -84,7 +99,9 @@ class Matchmaking:
                 print(f"Current pair: {pair}")
                 print("Current used pairs:", used_pairs)
 
-                #Generate a new pair
+                """
+                Generate Pairs for the next rounds
+                """
                 player1, player2 = random.sample(sorted_players, 2)
                 pair = tuple(sorted([player1, player2]))
 
@@ -93,18 +110,12 @@ class Matchmaking:
             used_pairs.add(pair)
             matchups.append((player1, player2))
 
-        # Print the generated matchups for inspection
+        """" 
+        Print the generated matchups for for next round so coordinator can 
+        announce next round matchups. 
+        """
         print("Generated matchups for the next round:")
         for idx, (player1, player2) in enumerate(matchups, 1):
             print(f"Match {idx}: {player1.name} vs {player2.name}")
 
         return matchups
-
-"""
-    }
-    matchmaking = Matchmaking(players)
-    # Match the following round
-    matchups = matchmaking.match_following_round(previous_round_results)
-    for idx, (player1, player2) in enumerate(matchups, 1):
-        print(f"Match {idx}: {player1.name} vs {player2.name}")
-"""
