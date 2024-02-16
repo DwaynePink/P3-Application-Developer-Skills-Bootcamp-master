@@ -9,6 +9,11 @@ from datetime import datetime
 
 
 class ManageTournament:
+    """
+    Class to manage the tournament flow from creating the tournaments, registering players,
+    to declaring a winner.Creates a tournament list that is used for matchmaking, tournament flow,
+    reports and saving files for record keeping
+    """
     def __init__(self):
         self.tournaments = {}
         self.all_players = []
@@ -186,7 +191,7 @@ class ManageTournament:
             return
 
         if not tournament.play_round():
-            print("unable to play round. endng tournament")
+            print("unable to play round. ending tournament")
             return
 
         # Ask for confirmation before advancing to the next round
