@@ -206,19 +206,49 @@ class ManageTournament:
                     else:
                         print("Invalid input. Please enter 1, 2, or 0.")
 
+        """"
+        Calls the match_following_round method and generates the next matchups
+        Prints matchups for coordinator to communicate to the players. 
         """
-        print current round number completed. Saves tournament state and displays rankings
+        next_round_matchups = self.matchmaker.match_following_round(tournament)
+        print("Next round matchups before storing:", next_round_matchups)
+
         """
-        print(f"Round {tournament.current_round}: Completed")
+        Calls method to store round matchups.
+        
+        tournament.store_round_matchups(tournament.current_round, next_round_matchups)
+        print("Round matchups after storing:", tournament.round_matchups)
+        """
+        """
+        
+        """
         self.save_tournament_state(tournament, tournament.current_round)
         tournament.display_rankings()
-        self.matchmaker = Matchmaking()
-        # Get matchups for the next round
-        next_round_matchups = self.matchmaker.match_following_round(tournament)
+        """
+        print(f"After Round {tournament.current_round}:")
+
+        for matchup in next_round_matchups:
+            print(f"Round {matchup['round_number']} Match: {matchup['player1'].name} vs {matchup['player2'].name}")
 
         print("Matchups for the next round:")
         for idx, (player1, player2) in enumerate(next_round_matchups, 1):
             print(f"Match {idx}: {player1.name} vs {player2.name}")
+
+     
+        print current round number completed. Saves tournament state and displays rankings
+        
+        print(f"Round {tournament.current_round}: Completed")
+
+        self.matchmaker.update_tournament_results(tournament)
+        self.matchmaker = Matchmaking()
+        # Get matchups for the next round
+
+        
+
+        print("Matchups for the next round:")
+        for idx, (player1, player2) in enumerate(next_round_matchups, 1):
+            print(f"Match {idx}: {player1.name} vs {player2.name}")
+        """
 
 
     def calculate_winner(self, tournament):
