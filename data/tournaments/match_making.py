@@ -44,7 +44,20 @@ class Matchmaking:
                 elif rnd.result == "player2":
                     rnd.player2.add_points(1)
 
-    def match_following_round(self, previous_round_results):
+    def update_tournament_results(self, tournament):
+        # Retrieve match results from the completed round
+        round_results = tournament.get_round_results()
+
+        # Update player data based on match results
+        for match_result in round_results:
+            winner = match_result['winner']
+            loser = match_result['loser']
+
+            # Update player statistics
+            winner.increment_wins()
+            loser.increment_losses()
+
+    def match_following_round(self, tournament):
         # Sort players by their points (descending order)
         sorted_players = sorted(self.players, key=lambda x: x.points, reverse=True)
 
