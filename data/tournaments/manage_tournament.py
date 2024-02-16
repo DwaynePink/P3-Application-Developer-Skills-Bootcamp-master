@@ -30,8 +30,10 @@ class ManageTournament:
             return data["name"], players
 
     def create_tournament(self):
-        # Creates a new tournament based on user input.
-        # Handles tournament creation including venue, dates, player selection, and max rounds.
+        """
+        Creates a new tournament based on user input. Handles tournament creation including venue,
+        dates, player selection. Keeps data format consistent for reporting.
+        """
         tournament_name = input("Enter the name of the new tournament: ").strip()
         venue = input("Enter the venue for the tournament: ").strip()
 
@@ -76,31 +78,44 @@ class ManageTournament:
             except ValueError:
                 print("Invalid input. Please enter a valid number.")
 
-
-        # Create and add tournament to the list of tournaments
+        """ 
+        creates new tournament with specified attributes.
+        """
         new_tournament = Tournament(tournament_name, venue, start_date, end_date, selected_players, max_rounds)
+        """
+        Add new tournament to tournaments dictionary with tournament name as key
+        """
         self.tournaments[tournament_name] = new_tournament
-
-        # Initialize matchmaker and start matchmaking process
-        self.matchmaker.players.extend(selected_players)  # Add selected players to the matchmaker
-        self.matchmaker.shuffle_players()  # Shuffle players
+        """
+        Add the players selected for the tournament to the matchmaker's pool of players
+        """
+        self.matchmaker.players.extend(selected_players)
+        """
+        Call the match_first_round function to create first round matchups
+        """
         matchups, _ = self.matchmaker.match_first_round()  # Match the first round
-
+        """
+        Print first round matchups to start tournament quickly
+        """
         print("Tournament created successfully.")
         print("Matchups for the first round:")
-
-        # Print the matchups
         for idx, (player1, player2) in enumerate(matchups, 1):
             print(f"Match {idx}: {player1.name} vs {player2.name}")
 
     def search_players(self, search_term):
-        # Searches and returns players matching the given search term (name or chess ID).
+        """
+        Searches and returns players based on a given search terms
+        """
         return [player for player in self.all_players
                 if search_term.lower() in player.name.lower()
                 or search_term.lower() in player.chess_id.lower()
                 or search_term.lower() in player.name.lower().split()]
 
     def search_players_objects(self, search_term):
+        """
+        calculates a similarity score between the search term and each player's name,
+        considering partial matches allows the user ease of use
+        """
         # Searches and returns player objects matching the given search term (name or chess ID).
         matched_players = []
         for player in self.all_players:
@@ -116,7 +131,10 @@ class ManageTournament:
                         break  # Break loop if a match is found
         return matched_players
     def select_players(self, num_players):
-        # Selects players for a tournament based on user input.
+        """
+        Selects players for a tournament based on user input. provides validation and error handling.
+        """
+                # Selects players for a tournament based on user input.
         selected_players = []
 
         while len(selected_players) < num_players:
@@ -146,9 +164,11 @@ class ManageTournament:
 
 
     def play_next_round(self, tournament):
-        # Handles the gameplay for the next round in the given tournament.
-        # Processes match results based on user input.
-        # first checks if max rounds have been reached
+        """
+        Prints updated  and max rounds to be played. Checks if max rounds have been reached.
+        if max rounds reached logic declares winners, otherwise continues in a loop.
+        Confirmed user wants to enter scores and advanced to the next round. Records scores.
+        """
         print(f"Attempting to play round {tournament.current_round + 1}.\n"
               f"Current round: {tournament.current_round}\n"
               f"Max rounds: {tournament.max_round}")
@@ -186,10 +206,12 @@ class ManageTournament:
                     else:
                         print("Invalid input. Please enter 1, 2, or 0.")
 
-        print(f"After Round {tournament.current_round}:")
+        """
+        print current round number completed. Saves tournament state and displays rankings
+        """
+        print(f"Round {tournament.current_round}: Completed")
         self.save_tournament_state(tournament, tournament.current_round)
         tournament.display_rankings()
-        print(tournament)
         self.matchmaker = Matchmaking()
         # Get matchups for the next round
         next_round_matchups = self.matchmaker.match_following_round(tournament)
