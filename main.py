@@ -3,6 +3,10 @@ from screens.tournaments.view import TournamentView
 
 
 def main():
+    """
+    This is the entry point to the system. Give users options to manage or create tournaments.
+    Enters loop when user makes a selection and exits when user chooses to exit.
+    """
     manager = ManageTournament()
     tview = TournamentView(manager)
 
