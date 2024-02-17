@@ -14,9 +14,9 @@ class Player:
         self.email = email
         self.chess_id = chess_id
         self.points = 0
-        # The class uses a private attribute for the birthdate (datetime format)
+        """ The class uses a private attribute for the birthdate (datetime format) """
         self._birthdate = None
-        # And a public one with a getter/setter for the birthday (str)
+        """ And a public one with a getter/setter for the birthday (str) """
         self.birthday = birthday
 
     def __lt__(self, other):
@@ -58,7 +58,9 @@ class Player:
         """Serialize the instance in a format compatible with JSON"""
 
         data = {attr: getattr(self, attr) for attr in ("name", "email", "chess_id")}
-        # We make sure to use the str representation of the date
-        # datetime is notnatively serializable in JSON
+        """ 
+        We make sure to use the str representation of the date
+        datetime is not natively serializable in JSON
+        """
         data["birthday"] = self.birthday
         return data
