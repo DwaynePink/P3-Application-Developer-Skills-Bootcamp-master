@@ -18,6 +18,9 @@ class PlayerView(BaseScreen):
         print("Birthdate:", self.player.birthday)
 
     def get_command(self):
+        """
+        Enters loops to repeatedly prompt the user for an action.
+        """
         while True:
             print("Type 'E' to edit the player, or 'B' to go back to club view.")
             action = self.input_string()
@@ -25,3 +28,4 @@ class PlayerView(BaseScreen):
                 return NoopCmd("club-view", club=self.club)
             elif action.upper() == "E":
                 return NoopCmd("player-edit", club=self.club, player=self.player)
+
