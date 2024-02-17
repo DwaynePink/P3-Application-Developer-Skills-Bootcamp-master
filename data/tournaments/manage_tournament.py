@@ -66,24 +66,22 @@ class ManageTournament:
             print(f"Tournament '{tournament_name}' already exists.")
             return
 
-        num_players = 0
         while True:
             try:
                 num_players = int(input("Enter the number of players to select (must be an even number): "))
                 if num_players % 2 == 0 and num_players > 0:
-                    break  # break out of the loop if input is valid
+                    break
                 else:
                     print("Invalid number. Please enter a positive even number.")
             except ValueError:
                 print("Invalid input. Please enter a valid number.")
         selected_players = self.select_players(num_players)
 
-        max_rounds = 0
         while True:
             try:
                 max_rounds = int(input("Enter the maximum number of rounds: "))
                 if max_rounds > 0:
-                    break  # Break out of the loop if input is valid
+                    break
                 else:
                     print("Invalid number. Please enter a positive number.")
             except ValueError:
@@ -104,7 +102,7 @@ class ManageTournament:
         """
         Call the match_first_round function to create first round matchups
         """
-        matchups, _ = self.matchmaker.match_first_round()  # Match the first round
+        matchups, _ = self.matchmaker.match_first_round()
         """
         Print first round matchups to start tournament quickly
         """
@@ -126,20 +124,20 @@ class ManageTournament:
         """
         calculates a similarity score between the search term and each player's name,
         considers partial matches allows the user ease of use
+        Searches and returns player objects matching the given search term (name or chess ID).
         """
-        # Searches and returns player objects matching the given search term (name or chess ID).
         matched_players = []
         for player in self.all_players:
-            # Check for exact match in name or chess ID
+            """Check for exact match in name or chess ID"""
             if (search_term.lower() in player.name.lower()) or (search_term.lower() in player.chess_id.lower()):
                 matched_players.append(player)
             else:
-                # Perform fuzzy matching
+                """Perform fuzzy matching"""
                 matches = process.extract(search_term.lower(), player.name.lower(), scorer=process.partial_ratio)
                 for _, score in matches:
-                    if score > 50:  # Adjust the threshold as needed
+                    if score > 50:
                         matched_players.append(player)
-                        break  # Break loop if a match is found
+                        break
         return matched_players
 
     def select_players(self, num_players):
@@ -164,7 +162,7 @@ class ManageTournament:
                         if selected_player not in selected_players:
                             selected_players.append(selected_player)
                             self.display_selected_players(selected_players)
-                            break  # break out of the inner loop if input is valid
+                            break
                         else:
                             print("Player already selected. Please choose a different player.")
                     else:
@@ -194,7 +192,6 @@ class ManageTournament:
             print("unable to play round. ending tournament")
             return
 
-        # Ask for confirmation before advancing to the next round
         confirmation = input("Are you sure you want to advance to the next round? (yes/no): ").strip().lower()
         if confirmation != "yes":
             print("Next round aborted.")
@@ -244,18 +241,6 @@ class ManageTournament:
         print(f"Calculated winner for tournament '{tournament.name}': {winner.name}")
         return winner
 
-    """
-    def declare_winners(self):
-        
-        Iterates over all tournaments stored in the tournaments dict. Check if max rounds reached. 
-        if max reached it calls the Calculate winner. prints name of tournament and winners
-        
-        for tournament_name, tournament in self.tournaments.items():
-            if tournament.current_round > tournament.max_round:
-                print(f"Tournament '{tournament_name}' has completed all rounds.")
-                winner = self.calculate_winner(tournament)
-                print(f"The winner of tournament '{tournament_name}' is: {winner.name}")
-    """
     def save_tournament_state(self, tournament, round_number):
         """
         Saves all rounds to JSON files, so all tournament changes have a record.
@@ -307,7 +292,6 @@ class ManageTournament:
         """
         Displays a list of currently selected players for tournament
         """
-        # Displays a list of currently selected players for the tournament.
         print("\nCurrently selected players:")
         for i, player in enumerate(selected_players, 1):
             print(f"{i}: {player.name} ({player.chess_id})")
