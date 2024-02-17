@@ -1,11 +1,13 @@
-import random
 from .round import Round
 from data.tournaments.match_making import Matchmaking
 
+
 class Tournament:
-
     players = None
-
+    """
+    Intended to store  player information shared among tournament class. 
+    parameter are displayed below. 
+    """
     def __init__(self, name, venue, start_date, end_date, players, max_round):
         if not name:
             raise ValueError("Player name is required!")
@@ -26,6 +28,11 @@ class Tournament:
         self.players.sort(key=lambda player: player.points, reverse=True)
 
     def play_round(self):
+        """
+        Handles round setup. Check if maximum number of rounds is reached. if max rounds are
+        not reached proceed to set up current round. Creates list of named 'rounds' to store
+        for matchups. After round is set up, it returns to prepare for next round setup.
+        """
         if self.current_round >= self.max_round:
             print("Maximum number of rounds reached. No new rounds will occur")
             return False
