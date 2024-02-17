@@ -3,26 +3,34 @@ from models import tournament
 
 
 class TournamentView:
+    """
+    Class Responsible for managing the user interface for managing tournaments.
+    Tournament_manager manages the backend logic for tournaments.
+    """
     def __init__(self, tournament_manager):
-        # Initialize the TournamentView with a reference to a tournament_manager
-        # which will handle the backend logic for managing tournaments
         self.tournament_manager = tournament_manager
         self.tournament_reports = TournamentReporter(tournament)
 
     def manage_tournament(self):
-        # Method to manage a tournament. It includes listing available tournaments,
-        # selecting a tournament, and managing various aspects of the selected tournament.
+        """
+        Method to manage a tournament. It includes listing available tournaments,
+        selecting a tournament, and managing various aspects of the selected tournament.
+        """
         if not self.tournament_manager.tournaments:
             print("No tournaments available.")
             return
 
         print("\nAvailable Tournaments:")
-        # Retrieve and display the list of available tournament names
+        """
+        Retrieve and display the list of available tournament names
+        """
         tournament_names = list(self.tournament_manager.tournaments.keys())
         for i, name in enumerate(tournament_names, 1):
             print(f"{i}. {name}")
 
-        # Prompt the user to select a tournament to manage
+        """
+        Prompts the user to select a tournament to manage
+        """
         choice = input("Select a tournament to manage (enter number): ").strip()
         try:
             choice_index = int(choice) - 1
@@ -37,7 +45,9 @@ class TournamentView:
             print("Invalid input. Please enter a number.")
             return
 
-        # Loop to manage the selected tournament with various options
+        """
+        Main loop for managing the selected tournament with various options.
+        """
         while True:
             print(f"\nManaging Tournament: {tournament.name}")
             # Display details of the selected tournament
@@ -49,7 +59,9 @@ class TournamentView:
             for player in tournament.players:
                 print(f" - {player.name} (Points: {player.points})")
 
-            # Menu for tournament management options
+            """
+            Menu for tournament management options
+            """
             print("1. View Rankings")
             print("2. View Matchups")
             print("3. Play Next Round")
@@ -58,7 +70,9 @@ class TournamentView:
             print("6. Back to Main Menu")
             choice = input("Choose an option: ")
 
-            # Handling the user's choice for tournament management
+            """
+            Handles the user's choice for tournament management.
+            """
             if choice == '1':
                 tournament.display_rankings()
             elif choice == '2':
