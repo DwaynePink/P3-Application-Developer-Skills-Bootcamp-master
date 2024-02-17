@@ -1,9 +1,19 @@
+from models import tournament
+
 
 class TournamentReporter:
+    """
+    Provides reporting functionality related to tournaments. constructor takes tournament
+    parameter allowing other methods within the class to access info about the tournament.
+    """
     def __init__(self, tournament):
         self.tournament = tournament
 
     def print_tournament_report(self):
+        """
+        Prints necessary tournament information including name, date, venue, current rounds.
+        Displays player rankings and prints matchups for each round, .
+        """
         print(f"\nTournament Report for: {self.tournament.name}")
         print(f"Dates: {self.tournament.start_date} to {self.tournament.end_date}")
         print(f"Venue: {self.tournament.venue}")
