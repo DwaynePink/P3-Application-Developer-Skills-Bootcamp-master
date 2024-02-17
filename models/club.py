@@ -30,7 +30,7 @@ class ChessClub:
                     Player(**player_dict) for player_dict in data["players"]
                 ]
         elif not filepath:
-            # We did not have a file, so we are going to create it by running the save method
+
             self.save()
 
     def save(self):
