@@ -88,6 +88,6 @@ class TournamentView:
                 reporter = TournamentReporter(tournament)
                 reporter.print_tournament_report()
             elif choice == '6':
-                break  # Exit the tournament management loop
+                break
             else:
                 print("Invalid option, please try again.")
