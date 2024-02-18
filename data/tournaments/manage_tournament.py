@@ -2,7 +2,6 @@ import os
 import json
 
 from data.tournaments.match_making import Matchmaking
-from models import tournament
 from models.tournament import Tournament
 from models.player import Player
 from thefuzz import process
