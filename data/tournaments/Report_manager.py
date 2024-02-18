@@ -12,7 +12,7 @@ class TournamentReporter:
     def print_tournament_report(self):
         """
         Prints necessary tournament information including name, date, venue, current rounds.
-        Displays player rankings and prints matchups for each round, .
+        Displays player rankings and prints matchups for each round.
         """
         print(f"\nTournament Report for: {self.tournament.name}")
         print(f"Dates: {self.tournament.start_date} to {self.tournament.end_date}")
@@ -40,5 +40,3 @@ class TournamentReporter:
                 else:
                     result = "Not played yet"
                 print(f" - Match: {match_info}, {result}")
-
-
