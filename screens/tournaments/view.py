@@ -63,11 +63,10 @@ class TournamentView:
             Menu for tournament management options
             """
             print("1. View Rankings")
-            print("2. View Matchups")
-            print("3. Play Next Round")
-            print("4. View Player Details")
-            print("5. Print Tournament Report")
-            print("6. Back to Main Menu")
+            print("2. Play Next Round")
+            print("3. View Player Details")
+            print("4. Print Tournament Report")
+            print("5. Back to Main Menu")
             choice = input("Choose an option: ")
 
             """
@@ -76,18 +75,13 @@ class TournamentView:
             if choice == '1':
                 tournament.display_rankings()
             elif choice == '2':
-                matchups, _ = self.tournament_manager.matchmaker.match_first_round()
-                print("\nMatchups for the first round:")
-                for idx, (player1, player2) in enumerate(matchups, 1):
-                    print(f"Match {idx}: {player1.name} vs {player2.name}")
-            elif choice == '3':
                 self.tournament_manager.play_next_round(tournament)
-            elif choice == '4':
+            elif choice == '3':
                 self.tournament_manager.view_player_details(tournament.name)
-            elif choice == '5':
+            elif choice == '4':
                 reporter = TournamentReporter(tournament)
                 reporter.print_tournament_report()
-            elif choice == '6':
+            elif choice == '5':
                 break
             else:
                 print("Invalid option, please try again.")
