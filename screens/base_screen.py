@@ -14,8 +14,9 @@ class BaseScreen(ABC):
     def input_string(self, prompt="", default=None, empty=False):
         """
         Utility function: get a string from the screen.
-        If default is provided and the user provides an empty response, then the default value is used.
-        If empty is True, a user cannot provide an empty response.
+        If default is provided and the user provides an empty response,
+        then the default value is used. If empty is True, a user cannot
+        provide an empty response.
         """
 
         prompt = prompt + "? "

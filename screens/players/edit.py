@@ -4,7 +4,8 @@ from ..base_screen import BaseScreen
 
 
 class PlayerEdit(BaseScreen):
-    """Screen displayed when editing a player (creating or changing an existing one)"""
+    """Screen displayed when editing a player (creating or changing
+    an existing one)"""
 
     def __init__(self, club, player=None):
         self.club = club

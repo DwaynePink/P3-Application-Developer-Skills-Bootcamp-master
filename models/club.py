@@ -14,7 +14,8 @@ class ChessClub:
     def __init__(self, filepath=None, name=None):
         """The constructor works in two ways:
         - if the filepath is provided, it loads data from JSON
-        - if it is not but a name is provided, it creates a new club (and a new JSON file)
+        - if it is not but a name is provided, it creates a new club
+        (and a new JSON file)
         """
 
         self.name = name

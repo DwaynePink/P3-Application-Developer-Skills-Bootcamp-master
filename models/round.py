@@ -7,8 +7,9 @@ class Round:
 
     def play_match(self, result):
         """
-        Records outcome of the match. marks the match as played and defines the result
-        Boolean indicating whether the match was played or not.
+        Records outcome of the match. marks the match as played and
+        defines the result Boolean indicating whether the match was
+        played or not.
         """
         if result == "Draw":
             self.player1.add_points(0.5)

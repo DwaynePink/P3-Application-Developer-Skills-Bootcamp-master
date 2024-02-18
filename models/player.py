@@ -26,7 +26,8 @@ class Player:
         return f"<{self.name}>"
 
     def __hash__(self):
-        """Returns the hash of the object - useful to use the instance as a key in a dictionary or in a set"""
+        """Returns the hash of the object - useful to use the instance
+        as a key in a dictionary or in a set"""
         return hash((self.name, self.email, self.chess_id, self.birthdate))
 
     def __eq__(self, other):

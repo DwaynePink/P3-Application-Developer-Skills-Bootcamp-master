@@ -6,8 +6,9 @@ from .club import ChessClub
 
 class ClubManager:
     """
-    Designed to manage chess clubs. iterates over all files in the specified folder,
-    creates a ChessClub object for each file and stores them in a JSON file.
+    Designed to manage chess clubs. iterates over all files in the
+    specified folder, creates a ChessClub object for each file and
+    stores them in a JSON file.
     """
     def __init__(self, data_folder="data/clubs"):
         datadir = Path(data_folder)

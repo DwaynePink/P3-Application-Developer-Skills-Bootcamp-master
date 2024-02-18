@@ -28,4 +28,3 @@ class PlayerView(BaseScreen):
                 return NoopCmd("club-view", club=self.club)
             elif action.upper() == "E":
                 return NoopCmd("player-edit", club=self.club, player=self.player)
-

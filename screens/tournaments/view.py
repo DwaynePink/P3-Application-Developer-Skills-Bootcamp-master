@@ -13,8 +13,9 @@ class TournamentView:
 
     def manage_tournament(self):
         """
-        Method to manage a tournament. It includes listing available tournaments,
-        selecting a tournament, and managing various aspects of the selected tournament.
+        Method to manage a tournament. It includes listing available
+        tournaments,selecting a tournament, and managing various aspects
+        of the selected tournament.
         """
         if not self.tournament_manager.tournaments:
             print("No tournaments available.")
