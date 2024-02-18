@@ -18,28 +18,28 @@ class Matchmaking:
         if len(self.players) % 2 != 0:
             raise ValueError("Number of players must be even for matchmaking.")
         random.shuffle(self.players)
-        print("Players shuffled successfully.")
+        print("Tournament created.")
+        print("Players shuffled.")
 
-    def match_first_round(self):
+    def match_first_round(self, players):
         """
         Function designed specifically for the first round which is a random shuffle, iterates
         over the shuffled list and match pairs. initializes points for each player.
         """
-        if len(self.players) < 2:
+        if len(players) < 2:
             raise ValueError("At least two players are required for matchmaking.")
 
         self.shuffle_players()
         matchups = []
         points = defaultdict(float)
 
-        for i in range(0, len(self.players), 2):
-            player1 = self.players[i]
-            player2 = self.players[i + 1]
+        for i in range(0, len(players), 2):
+            player1 = players[i]
+            player2 = players[i + 1]
             matchups.append((player1, player2))
             points[player1] = 0
             points[player2] = 0
 
-        print("First round matchups created successfully.")
         return matchups, points
 
     def match_following_round(self, tournament):
@@ -48,10 +48,7 @@ class Matchmaking:
         that players wth the highest points are matched first, then shuffles the list and
         iterates over shuffled list to avoid pairing players whom have been paired before.
         """
-        sorted_players = sorted(self.players, key=lambda x: x.points, reverse=True)
-
-        print(f"Number of players available for pairing: {len(sorted_players)}")
-        print(len(self.players))
+        sorted_players = sorted(tournament.players, key=lambda x: x.points, reverse=True)
 
         self.shuffle_players()
         """ Add list to list for matchups """
@@ -60,9 +57,6 @@ class Matchmaking:
         for i in range(0, len(sorted_players), 2):
             player1 = sorted_players[i]
             player2 = sorted_players[i + 1]
-
-            # Print the players being paired for debugging
-            print(f"Pairing: {player1.name} vs {player2.name}")
 
             """ 
             Check if pair has already played against each other

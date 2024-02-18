@@ -2,6 +2,7 @@ import os
 import json
 
 from data.tournaments.match_making import Matchmaking
+from models import tournament
 from models.tournament import Tournament
 from models.player import Player
 from thefuzz import process
@@ -99,17 +100,6 @@ class ManageTournament:
         Add the players selected for the tournament to the matchmaker's pool of players
         """
         self.matchmaker.players.extend(selected_players)
-        """
-        Call the match_first_round function to create first round matchups
-        """
-        matchups, _ = self.matchmaker.match_first_round()
-        """
-        Print first round matchups to start tournament quickly
-        """
-        print("Tournament created successfully.")
-        print("Matchups for the first round:")
-        for idx, (player1, player2) in enumerate(matchups, 1):
-            print(f"Match {idx}: {player1.name} vs {player2.name}")
 
     def search_players(self, search_term):
         """
@@ -161,15 +151,23 @@ class ManageTournament:
                         selected_player = display_list[player_index]
                         if selected_player not in selected_players:
                             selected_players.append(selected_player)
-                            self.display_selected_players(selected_players)
-                            break
                         else:
                             print("Player already selected. Please choose a different player.")
                     else:
                         print("Invalid player number. Please try again.")
+                    if len(selected_players) == num_players:
+                        break
                 except ValueError:
                     print("Invalid input. Please enter a valid number.")
 
+        self.display_selected_players(selected_players)
+        matchups, _ = self.matchmaker.match_first_round(selected_players)
+        """
+        Call the match_first_round function to create first round matchups
+        """
+        print("Matchups for the first round:")
+        for idx, (player1, player2) in enumerate(matchups, 1):
+            print(f"Match {idx}: {player1.name} vs {player2.name}")
         return selected_players
 
     def play_next_round(self, tournament):
@@ -217,7 +215,6 @@ class ManageTournament:
                         print("Invalid input. Please enter 1, 2, or 0.")
 
         next_round_matchups = self.matchmaker.match_following_round(tournament)
-        print("Next round matchups before storing:", next_round_matchups)
         """
         Calls the match_following_round method and generates the next matchups
         Prints matchups for coordinator to communicate to the players. 
