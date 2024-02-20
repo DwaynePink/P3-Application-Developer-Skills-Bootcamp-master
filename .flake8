@@ -1,0 +1,6 @@
+﻿[flake8]
+
+max-line-length = 100
+format = html
+htmldir = reports
+exclude = \env, 
