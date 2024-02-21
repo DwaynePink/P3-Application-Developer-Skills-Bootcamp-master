@@ -80,7 +80,7 @@ Generating the Flake8 Report
 A Flake 8 file has been added to the source file. To generate a new Flake8 Report simply. 
 Change directory into the project folder-     	Terminal Command: 	cd (name of file)  
 Activate the virtual Environment- 		Terminal Command: 	.\env\Scripts\activate
-Run Flake8 Report-			Terminal Command: 	flake 8 . 
+Run Flake8 Report-			Terminal Command: 	flake8 --max-line-length=119 --exclude env --format=html --htmldir=flake-report 
 Contributions
 Contributions to the Castle Chess program are welcome! If you'd like to contribute, please fork the repository, make your changes, and submit a pull request.
 ________________________________________
