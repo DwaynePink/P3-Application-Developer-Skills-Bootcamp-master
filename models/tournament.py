@@ -5,8 +5,8 @@ from data.tournaments.match_making import Matchmaking
 class Tournament:
     players = None
     """
-    Intended to store  player information shared among tournament class. 
-    parameter are displayed below. 
+    Intended to store  player information shared among tournament class.
+    parameter are displayed below.
     """
     def __init__(self, name, venue, start_date, end_date, players, max_round):
         if not name:

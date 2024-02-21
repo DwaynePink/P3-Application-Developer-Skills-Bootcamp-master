@@ -87,7 +87,7 @@ class ManageTournament:
             except ValueError:
                 print("Invalid input. Please enter a valid number.")
 
-        """ 
+        """
         creates new tournament with specified attributes.
         """
         new_tournament = Tournament(tournament_name, venue, start_date, end_date, selected_players, max_rounds)
@@ -139,7 +139,8 @@ class ManageTournament:
         while len(selected_players) < num_players:
             while True:
                 try:
-                    search_term = input("Enter a name or chess ID to search, or just press enter to list all players: ")
+                    search_term = input("Enter a name or chess ID to search, or "
+                                        "just press enter to list all players: ")
                     display_list = self.search_players(search_term) if search_term else self.all_players
 
                     for i, player in enumerate(display_list, 1):
@@ -213,15 +214,15 @@ class ManageTournament:
                     else:
                         print("Invalid input. Please enter 1, 2, or 0.")
 
-        next_round_matchups = self.matchmaker.match_following_round(tournament)
+        self.matchmaker.match_following_round(tournament)
         """
         Calls the match_following_round method and generates the next matchups
-        Prints matchups for coordinator to communicate to the players. 
+        Prints matchups for coordinator to communicate to the players.
         """
         self.save_tournament_state(tournament, tournament.current_round)
         tournament.display_rankings()
         """
-        Saves tournament data to the JSON files for record keeping. 
+        Saves tournament data to the JSON files for record keeping.
         Displays tournament rankings
         """
     def calculate_winner(self, tournament):

@@ -1,6 +1,3 @@
-from models import tournament
-
-
 class TournamentReporter:
     """
     Provides reporting functionality related to tournaments. constructor takes tournament

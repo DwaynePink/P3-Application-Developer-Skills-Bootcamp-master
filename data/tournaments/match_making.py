@@ -58,7 +58,7 @@ class Matchmaking:
             player1 = sorted_players[i]
             player2 = sorted_players[i + 1]
 
-            """ 
+            """
             Check if pair has already played against each other
             """
             pair = tuple(sorted([player1, player2]))
@@ -79,9 +79,9 @@ class Matchmaking:
             used_pairs.add(pair)
             matchups.append((player1, player2))
 
-        """" 
-        Print the generated matchups for for next round so coordinator can 
-        announce next round matchups. 
+        """
+        Print the generated matchups for for next round so coordinator can
+        announce next round matchups.
         """
         print("Generated matchups for the next round:")
         for idx, (player1, player2) in enumerate(matchups, 1):
